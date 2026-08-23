@@ -1,0 +1,61 @@
+02_AUDIENCE
+
+├── Persona
+
+│      Mahasiswa
+
+│      Fresh Graduate
+
+│      Freelancer
+
+│      Junior Programmer
+
+│      Data Analyst Beginner
+
+│      Career Switcher
+
+│      UMKM
+
+│
+
+├── Pain Point
+
+│      Bingung Belajar Python
+
+│      Bingung Cari Magang
+
+│      CV Jelek
+
+│      Skripsi
+
+│      Data Berantakan
+
+│      Tidak Punya Portofolio
+
+│
+
+├── Dream
+
+│      Kerja Remote
+
+│      Data Analyst
+
+│      AI Engineer
+
+│      Freelancer
+
+│      Gaji Besar
+
+│
+
+├── FAQ
+
+├── Komentar Audience
+
+├── DM Audience
+
+├── Polling
+
+├── Survey
+
+└── Insight Audience

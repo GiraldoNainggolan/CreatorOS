@@ -1,0 +1,14 @@
+# Knowledge Gap Matrix
+
+| DOMAIN | EXISTING KNOWLEDGE | MISSING KNOWLEDGE | CORRUPTED KNOWLEDGE | RECOVERABLE KNOWLEDGE | LEGACY KNOWLEDGE | SOURCE DOCUMENTS | DEPENDENCIES | EXPECTED ARTIFACTS | IMPLEMENTATION IMPACT | PRIORITY | CONFIDENCE |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| **Brand** | DNA, Archetype, Voice, Visuals, Professional Bio | None significant | `Brand Guideline-Master Book.pdf` | Visual guidelines (from DOCX) | None | `01_BRAND.txt`, `Brand Guideline-Master Book.docx` | None | SOP, Brand Identity | None | P3 | HIGH |
+| **Audience** | Persona targeting from `Ide konten kreator.xlsx` (Sheet 2025) and `Media sosial spesialist.pdf` | Formal Audience Persona Definitions (Pain, Fear, Dream) | None | Persona Pain/Fear (from `Media sosial spesialist.pdf` page 19) | None | `Media sosial spesialist.pdf` | Brand | Audience Persona Matrix | Affects Hook generation | P2 | HIGH |
+| **ContentSystem** | Pipeline definitions, Hook Library, Problem Library, Framework Library | Detailed Content Pillars breakdown | None | None | `Ide konten kreator.xlsx` (Sheet 2023) | `Content Operating System.txt`, `Media sosial spesialist.pdf`, `Ide konten kreator.xlsx` | Brand, Audience | Hook Library, Framework Library | Defines DB schema for Content Items | P1 | HIGH |
+| **Script** | Frameworks (PAS, BAB, Hero Journey), Draft/Ready/Published lifecycle | Internal script part validation rules | `04_SCRIPT.docx` | Framework types and Hook separation (from `Media sosial spesialist.pdf`) | None | `Media sosial spesialist.pdf`, `docs/product.md` | ContentSystem | Script Validation Rules | Blocks Script Module implementation | P0 | HIGH |
+| **Recording** | SOPs, Folder structure, Equipment, Hybrid editing constraint | None | None | None | None | `05_RECORDING.docx`, `kecilan.docx` | Script | Recording SOP | Informational for System | P3 | HIGH |
+| **Editing** | Folder hierarchy, Metadata template, Quality Checklist | None | `06_EDITING.pdf` | None | None | `06_EDITING.docx` | Recording | Editing SOP | Informational for System | P3 | HIGH |
+| **Posting** | Empty Placeholder | SOP for cross-platform posting | None | None | None | None | Editing | Posting SOP | Limits automated posting agents | P1 | MEDIUM |
+| **Pipeline** | High-level stages defined (IDE -> ARCHIVE) | Transition rules between late stages | None | Stage definitions (from `Media sosial spesialist.pdf`) | None | `Media sosial spesialist.pdf` | All | State Machine Definition | Core routing logic | P1 | HIGH |
+| **QualityGate** | Checklist in `01_BRAND` | Automated Quality Gate parameters | None | Checklist rules (from `01_BRAND.docx`) | None | `Brand Guideline-Master Book.docx` | Pipeline | Validation Rules | Data integrity | P2 | HIGH |
+| **SOP** | Empty Placeholder | Operational definitions | None | None | None | None | All | General SOPs | System guidelines | P3 | LOW |

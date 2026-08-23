@@ -1,0 +1,141 @@
+03_CONTENT_SYSTEM
+
+├── Content Pillar
+
+│      AI
+
+│      Python
+
+│      Laravel
+
+│      Data Science
+
+│      Machine Learning
+
+│      GIS
+
+│      Career
+
+│      Productivity
+
+│      Freelancing
+
+│      Personal Branding
+
+│
+
+├── Hook Library
+
+│      Curiosity
+
+│      Fear
+
+│      Mistake
+
+│      Hot Take
+
+│      Story
+
+│      Tutorial
+
+│      Numbers
+
+│      AI Hook
+
+│      Coding Hook
+
+│
+
+├── CTA Library
+
+│      Save
+
+│      Follow
+
+│      Comment
+
+│      Share
+
+│      Download
+
+│      Join
+
+│      DM
+
+│
+
+├── Storytelling
+
+│      PAS
+
+│      AIDA
+
+│      BAB
+
+│      Hero Journey
+
+│      Before After How
+
+│      Story Lesson CTA
+
+│      Open Loop
+
+│
+
+├── Framework
+
+│      Carousel
+
+│      Reel
+
+│      Shorts
+
+│      LinkedIn
+
+│      X Thread
+
+│      Blog
+
+│
+
+├── Content Idea
+
+│      AI
+
+│      Career
+
+│      Coding
+
+│      Productivity
+
+│      Excel
+
+│      Prompt
+
+│      Thesis
+
+│      Project
+
+│
+
+├── Viral Trend
+
+├── Meme
+
+├── Challenge
+
+├── Seasonal Content
+
+├── Hashtag
+
+├── Keyword SEO
+
+├── YouTube SEO
+
+├── Trend Music
+
+├── Research
+
+├── References
+
+└── Swipe File

@@ -1,0 +1,7 @@
+Front-End: React.js, Next.js, Tailwind CSS
+
+Back-End: Laravel, RESTful API
+
+Data & AI: Python, SQL, K-Means Clustering, PCA, Google Earth Engine
+
+Management: Agile/Scrum, COBIT 2019, BPMN, ERD

@@ -1,0 +1,1 @@
+Edukasi teknologi dan arsitektur sistem tingkat menengah hingga mahir (Mid-to-Senior Level), berfokus pada implementasi proyek dunia nyata (Real-World Projects) seperti ERP, SPK (Sistem Pendukung Keputusan), IoT, dan integrasi API Enterprise.

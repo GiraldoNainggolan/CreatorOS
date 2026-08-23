@@ -1,0 +1,96 @@
+📂 03_Identity
+Logo Rules & Clear Space.txt
+
+Clear Space: Jarak aman di sekitar logo minimal berukuran 1/2 dari tinggi huruf "G" pada logo untuk menjaga visibilitas.
+
+Minimum Size: Untuk media cetak 15mm. Untuk digital 32px (menghindari pikselasi).
+
+Incorrect Usage: Dilarang mendistorsi proporsi (merenggangkan/memampatkan), mengganti warna di luar palet resmi, atau memberi efek bayangan murahan (cheap drop shadow).
+
+📂 04_Brand Voice
+Writing Style & Storytelling Framework.txt
+
+Formula Penulisan Utama (PAS): Problem (Validasi rasa sakit audiens) -> Agitate (Tekan kerugian jika diabaikan) -> Solve (Langkah teknis presisi).
+
+Kerangka Bercerita (Storytelling): Hook (3 detik pertama) -> Context/Data (Fakta industri) -> Struggle (Kesulitan saat proses coding/riset) -> Architecture/Solution -> Call to Action.
+
+Vocabulary.txt
+Insight | Framework | Architecture | Best Practice | Scalable | Production-Ready | Real Project | Case Study | Implementation | Automation | Ecosystem | Data-Driven | SDLC
+
+Words To Avoid.txt
+Auto Kaya | Cepat Kaya | Coding 1 Hari Jago | 100% Dijamin | Pasti Viral | Rahasia Orang Kaya | Hacks (gunakan Optimizations sebagai gantinya).
+
+📂 05_Visual System
+Photography Style.txt
+Fotografi bernuansa profesional-teknis. Elemen wajib: Clean Workspace, Natural Lighting berpadu aksen neon halus (biru/hijau), Dark Background, Multiple Monitors, Mechanical Keyboard, Kopi, Minimalist Desk dengan sentuhan tanaman kecil (Plants).
+
+Graphic Elements.txt
+Elemen grafis harus merepresentasikan "Sistem". Gunakan: Grid, Blueprint, Flowchart, Terminal/Command Line interface snippet, Code blocks, Dashboard UI metrics, Glassmorphism, Subtle Gradients.
+
+📂 06_Content Identity
+Subtitle & Lower Third Style.txt
+
+Subtitle Format: Maksimal 2 baris agar layar tidak tertutup. Warna Font Putih, Highlight kata kunci warna Hijau (Emerald), Font Inter, Ukuran 56, dengan Drop Shadow (Opacity 80%, Blur 4px, Y-Offset 2px) untuk keterbacaan di background terang.
+
+Lower Third: Tampil di detik ke-5. Struktur: Baris 1 [Nama: Giraldo Nainggolan], Baris 2 [Profesi: Software & AI Engineer], diiringi logo minimalis Instagram & LinkedIn.
+
+Editing Style: Padat, jump-cut pada jeda napas. B-Roll harus berisi screen-record aplikasi ERP/Web GIS atau animasi bagan arsitektur data.
+
+📂 07_Professional Identity
+Short Bio.txt
+Giraldo Nainggolan adalah seorang Senior Software Engineer dan Data Scientist yang berfokus pada arsitektur sistem enterprise dan analitik spasial. Memiliki lisensi BNSP, Cisco, dan Google, ia secara aktif mengedukasi ribuan talenta digital melalui konten teknologi berbasis proyek dunia nyata.
+
+Long Bio & Speaker Profile.txt
+Giraldo Stevanus Nainggolan adalah seorang eksekutif teknologi dengan rekam jejak memimpin siklus pengembangan perangkat lunak (SDLC) berskala enterprise. Pengalamannya merentang dari optimalisasi arsitektur SAP ERP di industri manufaktur hingga menjadi Research Assistant di kementerian dalam membangun ekosistem Web GIS dan Machine Learning untuk zonasi agroekologi memproses lebih dari 300.000 data spasial.
+
+Memiliki kredensial global dari Google, Meta, dan Cisco, serta tergabung sebagai Coreteam di berbagai komunitas pengembang (seperti GDGoC dan Tangerang Dev), Giraldo memadukan ketajaman Software Engineering dan Artificial Intelligence. Ia memiliki misi utama: menjembatani kesenjangan talenta digital di Indonesia melalui edukasi teknologi yang terstruktur, praktis, dan berorientasi pada industri (production-ready).
+
+📂 08_Social Media Identity
+LinkedIn.txt
+
+Tujuan: Kepemimpinan Pemikiran (Thought Leadership), Jaringan B2B, Peluang Eksekutif.
+
+Audience: Recruiters, CTO, Founders, Tech Professionals.
+
+Jenis Konten: Case Study proyek, pembedahan arsitektur software (BPMN/ERD), Career roadmap, pencapaian korporat.
+
+Tone: Sangat Profesional, Analitis, Otoritatif.
+
+Instagram & TikTok.txt
+
+Tujuan: Pertumbuhan Followers, Komunitas, Edukasi Praktis.
+
+Audience: Mahasiswa IT, Junior Developers, Tech-Enthusiasts.
+
+Hook/Durasi: 1-3 detik hook visual/suara. Durasi 45-60 detik.
+
+Jenis Konten: Tips coding cepat, mentalitas developer, tutorial AI, realita programmer (humor sage).
+
+Tone: Membumi, Edukatif, Interaktif, Dinamis.
+
+📘 Brand Guideline.pdf (Master Document Checklist)
+Untuk menyusun PDF final (Master Book), struktur halaman Anda kini adalah:
+
+Cover: Logo "GN" dan tulisan "Brand Operating System".
+
+Table of Contents
+
+Filosofi Brand: DNA perpaduan Code + Data + Education.
+
+Vision, Mission, Purpose & Core Values
+
+Positioning & USP: Membedah kuadran Expertise Matrix (SE + AI + GIS).
+
+Brand Archetype: Proporsi desain visual berdasar Sage, Creator, Explorer.
+
+Brand Voice: Do's & Don'ts kosakata dan gaya copywriting (PAS Framework).
+
+Visual Identity: Hex Codes warna (Navy & Emerald), Typography hierarchy, hierarki logo.
+
+Content Identity: Blueprint thumbnail, spesifikasi subtitles, dan tata letak Carousel.
+
+Professional Identity: Copy-Paste Bios untuk berbagai skenario acara.
+
+Checklist Publikasi: Standar operasional prosedur (SOP) pengecekan QA (Quality Assurance) sebelum konten atau kode diunggah publik.
+
+Dengan mengunci sistem dan teks di atas ke dalam folder 01_BRAND, Anda secara resmi telah mengubah tumpukan fail biasa menjadi satu ekosistem "Otak Digital". Kapan pun Anda akan mengeksekusi proyek baru, BOS inilah algoritma utamanya.

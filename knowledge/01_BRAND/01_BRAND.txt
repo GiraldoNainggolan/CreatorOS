@@ -1,0 +1,34 @@
+01_BRAND
+
+├── Vision
+│      Vision.txt
+│      Mission.txt
+│      Goals 1 Tahun.txt
+│      Goals 5 Tahun.txt
+│
+├── Positioning
+│      Personal Branding
+│      Elevator Pitch
+│      Value Proposition
+│
+├── Identity
+│      Logo
+│      Banner
+│      Watermark
+│      Profile Picture
+│
+├── Brand Voice
+│      Tone of Voice
+│      Writing Style
+│      CTA Style
+│      Humor Style
+│
+├── Color Palette
+├── Typography
+├── Icon
+├── Thumbnail Style
+├── Carousel Style
+├── Video Style
+├── Editing Style
+├── Intro Outro
+└── Brand Guideline.pdf

@@ -1,0 +1,33 @@
+06_EDITING
+
+├── CapCut
+
+├── Premiere
+
+├── After Effects
+
+├── Canva
+
+├── Photoshop
+
+│
+
+├── Preset
+
+├── LUT
+
+├── Animation
+
+├── Sound Effect
+
+├── Music
+
+├── Font
+
+├── Subtitle
+
+├── Motion Graphic
+
+├── Transition
+
+└── Export

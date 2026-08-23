@@ -1,0 +1,39 @@
+04_SCRIPT
+
+├── Draft
+
+├── Ready
+
+├── Published
+
+│
+
+├── TikTok
+
+├── Instagram
+
+├── YouTube
+
+├── LinkedIn
+
+├── Facebook
+
+├── Threads
+
+│
+
+├── Hook
+
+├── Opening
+
+├── Closing
+
+├── CTA
+
+├── Caption
+
+├── Subtitle
+
+├── Voice Over
+
+└── Prompt AI

@@ -1,0 +1,51 @@
+05_RECORDING
+
+├── Camera
+
+├── Smartphone
+
+├── Webcam
+
+├── Audio
+
+├── Screen Recording
+
+├── OBS
+
+├── Drone
+
+├── BTS
+
+│
+
+├── B-Roll
+
+│      Coding
+
+│      Laptop
+
+│      Keyboard
+
+│      Mouse
+
+│      Coffee
+
+│      Workspace
+
+│      Walking
+
+│      Campus
+
+│      Office
+
+│      Meeting
+
+│
+
+├── Green Screen
+
+├── Lighting
+
+├── Thumbnail Photo
+
+└── Raw Video

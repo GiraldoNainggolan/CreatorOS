@@ -1,0 +1,15 @@
+1. Integrity: Membangun kode dan konten yang jujur, aman, dan dapat dipertanggungjawabkan.
+
+2. Continuous Learning: Beradaptasi tanpa henti terhadap disrupsi teknologi (Lifelong Learner).
+
+3. Evidence-Based: Mengambil keputusan dan memberikan edukasi berdasarkan data riil dan pengujian logis.
+
+4. Curiosity: Selalu mempertanyakan status quo untuk menemukan solusi algoritma yang lebih optimal.
+
+5. Impact First: Memprioritaskan kebermanfaatan solusi (aplikasi/konten) bagi pengguna akhir dibandingkan sekadar tren.
+
+6. Open Knowledge: Mendukung budaya sumber terbuka (open-source) dan berbagi wawasan.
+
+7. Professionalism: Menjaga standar etika, manajemen waktu (SDLC), dan komunikasi level korporat di setiap iterasi proyek.
+
+8. Collaboration: Mengedepankan sinergi lintas disiplin (antara engineering, data, design, dan bisnis).

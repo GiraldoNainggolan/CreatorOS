@@ -1,0 +1,13 @@
+Setiap konten, baris kode, dan produk yang dirilis oleh Giraldo Nainggolan harus:
+
+1. Akurat secara teknis.
+
+2. Teruji (Production-Ready).
+
+3. Praktis dan sistematis.
+
+4. Bisa langsung direplikasi/dipraktikkan (Actionable).
+
+5. Bebas clickbait berlebihan atau janji muluk.
+
+6. Selalu memberikan value intelektual.

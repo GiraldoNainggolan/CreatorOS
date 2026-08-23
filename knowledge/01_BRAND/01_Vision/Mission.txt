@@ -1,0 +1,9 @@
+1. Mengembangkan arsitektur perangkat lunak berskala enterprise yang tangguh, terukur (scalable), dan berorientasi pada efisiensi bisnis.
+
+2. Membangun dan mengimplementasikan solusi AI serta Machine Learning berbasis data spasial dan analitik bisnis.
+
+3. Menyederhanakan konsep teknologi kompleks menjadi materi pembelajaran yang terstruktur, logis, dan mudah dipahami.
+
+4. Membantu talenta muda dan profesional dalam merancang peta jalan karier (career roadmap) di ekosistem teknologi.
+
+5. Terus melakukan riset, inovasi, dan publikasi ilmiah terapan yang menghubungkan teknologi dengan sektor krusial (seperti tata kelola kota, manufaktur, dan agroekologi).
