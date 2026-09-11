@@ -460,10 +460,10 @@ Do not create `vercel.json` unless the actual repository architecture requires i
 
 ### Vercel
 
-- [x] Vercel project configuration (.vercelignore isolating frontend, root directory)
-- [x] Framework detection (Vue/Vite)
+- [x] Vercel project configuration (Root Directory frontend, frontend/.vercelignore isolating scratch, root vercel.json removed)
+- [x] Framework detection (Vite single application preset)
 - [x] Build command and output directory (npm run build -> dist)
-- [x] SPA fallback rewrites (vercel.json)
+- [x] SPA fallback rewrites (frontend/vercel.json)
 - [x] Environment variables documented (public-safe only)
 - [x] No frontend secrets leaked into bundle
 - [x] Production build passes (1899 modules transformed, 0 errors)
@@ -550,6 +550,18 @@ Every future Antigravity/Codex/Gemini prompt MUST start with:
 > Never claim PASS from static inspection alone. Never fabricate success. Do not stop at planning.
 
 ## 24. Change Log
+
+### 2026-09-12 00:30: Vercel Frontend-Only Architecture Fix
+
+- Objective: Mengatasi masalah deteksi Application Preset Services saat import GitHub repositori CreatorOS ke Vercel, memastikan Vercel mendeploy frontend Vue 3 Vite saja dengan Root Directory `frontend`.
+- Root cause: Repositori monorepo memiliki package.json di folder frontend dan backend yang sama-sama memuat Vite. Ketika Root Directory pada Vercel dibiarkan bernilai `./`, scanner monorepo Vercel mendeteksi multi-service project (Services preset) dan meminta schema konfigurasi services pada vercel.json. File vercel.json di root sebelumnya juga memperkeruh deteksi tersebut.
+- Previous architecture: Root vercel.json dengan buildCommand `cd frontend && npm install && npm run build` yang memicu Services preset collision ketika diimport dari root.
+- New architecture: Root vercel.json dihapus. Konfigurasi deployment sepenuhnya dipusatkan pada `frontend/vercel.json` dengan target framework Vite, buildCommand `npm run build`, outputDirectory `dist`, cleanUrls true, dan SPA rewrites ke `/index.html`. Ditambahkan `frontend/.vercelignore` untuk mengabaikan scratch dan file environment lokal. Vercel Project Root Directory diarahkan ke `frontend`.
+- Backend isolation: Backend Laravel dan MySQL Laragon lokal tetap utuh di direktori `backend/`, tidak diubah, tidak dideploy ke Vercel, dan tidak menjadi dependensi build frontend.
+- Build evidence: `npm run build` di frontend sukses (vue-tsc -b dan vite build, 1899 modul ditransformasikan dalam 4.23s, 0 error). Secret scan pada bundle dist memastikan 0 secret key, 0 APP_KEY, dan 0 DB_PASSWORD terdeteksi.
+- Status: Vercel Configuration & Build: PASS. Vercel Production Deployment: BLOCKED_AUTH (menunggu pemicu deploy melalui dashboard Vercel milik pengguna).
+- Remaining blocker: Diperlukan pemilihan Root Directory = `frontend` pada modal import Vercel New Project di dashboard pengguna.
+- Next action: Pengguna melakukan import di Vercel dengan menyetel Root Directory ke `frontend` dan menekan tombol Deploy.
 
 ### 2026-09-11 23:55: Final Release Recovery and State Verification Pass
 
