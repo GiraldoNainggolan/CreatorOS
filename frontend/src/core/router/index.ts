@@ -60,8 +60,13 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach((to, _from, next) => {
+router.beforeEach(async (to, _from, next) => {
   const authStore = useAuthStore()
+
+  // Initialize Supabase session on first navigation
+  if (!authStore.isInitialized) {
+    await authStore.initializeAuth().catch(() => {})
+  }
 
   // Dynamic document title
   if (to.name === 'login') {
@@ -95,7 +100,7 @@ router.beforeEach((to, _from, next) => {
     }
   }
 
-  // Prototype fallback user session if in app without explicit credentials
+  // Fallback demo user session if in app prototype without live credentials
   if (!authStore.isAuthenticated && to.path.startsWith('/app') && !authStore.user) {
     authStore.user = { id: 1, email: 'demo@creatoros.com', name: 'Giraldo' }
   }

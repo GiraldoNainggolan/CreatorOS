@@ -295,6 +295,7 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/core/stores/auth'
+import { supabase } from '@/core/api/supabase'
 import faviconUrl from '@/assets/GN.png'
 import {
   Sparkles,
@@ -377,11 +378,19 @@ async function handleLogin() {
   errorMessage.value = ''
 
   try {
-    // Call existing auth store login implementation
-    await authStore.login({
-      email: email.value,
-      password: password.value
-    })
+    // If Supabase is configured, use Supabase Auth
+    if (authStore.isConfigured) {
+      await authStore.loginWithSupabase({
+        email: email.value,
+        password: password.value
+      })
+    } else {
+      // If neither Supabase nor backend API is configured, show clear blocked configuration
+      await authStore.login({
+        email: email.value,
+        password: password.value
+      })
+    }
 
     authStatus.value = 'success'
 
@@ -389,29 +398,48 @@ async function handleLogin() {
     const targetPath = (route.query.redirect as string) || '/app'
     setTimeout(() => {
       router.push(targetPath)
-    }, 600)
+    }, 500)
   } catch (err: any) {
     console.error('Login request failed:', err)
 
+    // Check if error is due to missing configuration
+    if (!authStore.isConfigured && (!err.response || err.code === 'ERR_NETWORK')) {
+      authStatus.value = 'blocked_configuration'
+      errorMessage.value =
+        'Authentication service is not configured. Please set VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY in your environment, or ensure your local backend is running.'
+      return
+    }
+
     // Check if error is network / backend offline
     const isNetworkError =
-      !err.response ||
-      err.code === 'ERR_NETWORK' ||
-      err.message?.includes('Network Error') ||
-      err.message?.includes('ECONNREFUSED')
+      !err.response &&
+      (err.code === 'ERR_NETWORK' ||
+        err.message?.includes('Network Error') ||
+        err.message?.includes('ECONNREFUSED') ||
+        err.message?.includes('Failed to fetch'))
 
     if (isNetworkError) {
       authStatus.value = 'blocked_configuration'
       errorMessage.value =
-        'Unable to connect to the authentication server. The backend API is currently unreachable. Please ensure the backend server is running and VITE_API_BASE_URL is configured.'
-    } else if (err.response?.status === 401 || err.response?.status === 422) {
+        'Unable to reach authentication server. Please check your internet connection or backend server status.'
+    } else if (err.response?.status === 404) {
+      authStatus.value = 'blocked_configuration'
+      errorMessage.value =
+        'Authentication service is unconfigured or API endpoint was not found. Please configure VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY, or ensure your local Laravel backend is running.'
+    } else if (
+      err.message?.toLowerCase().includes('invalid login credentials') ||
+      err.response?.status === 401 ||
+      err.response?.status === 422
+    ) {
       authStatus.value = 'error'
       errorMessage.value =
-        err.response?.data?.message || 'Invalid email or password. Please verify your credentials and try again.'
+        'Invalid email or password. Please verify your credentials and try again.'
     } else {
       authStatus.value = 'error'
       errorMessage.value =
-        err.response?.data?.message || err.message || 'An unexpected error occurred during authentication.'
+        err.message ||
+        err.response?.data?.message ||
+        'An unexpected error occurred during authentication.'
     }
   }
 }
@@ -422,20 +450,26 @@ async function retryConnection() {
   errorMessage.value = ''
 
   try {
-    // Perform a lightweight probe to api
-    await authStore.fetchUser().catch(() => {})
+    await authStore.initializeAuth()
     authStatus.value = 'idle'
   } catch {
     authStatus.value = 'blocked_configuration'
     errorMessage.value =
-      'Backend API remains unreachable. Please start the backend service on the configured port.'
+      'Authentication server remains unreachable. Please verify your configuration.'
   } finally {
     isRetrying.value = false
   }
 }
 
-function handleForgotSubmit() {
+async function handleForgotSubmit() {
   if (!forgotEmail.value) return
+  if (authStore.isConfigured) {
+    try {
+      await supabase.auth.resetPasswordForEmail(forgotEmail.value)
+    } catch (e) {
+      console.warn('Supabase reset password notice:', e)
+    }
+  }
   alert(`If an account exists for ${forgotEmail.value}, password reset instructions have been dispatched.`)
   showForgotModal.value = false
   forgotEmail.value = ''
