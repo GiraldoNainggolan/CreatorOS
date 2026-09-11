@@ -551,6 +551,19 @@ Every future Antigravity/Codex/Gemini prompt MUST start with:
 
 ## 24. Change Log
 
+### 2026-09-12 01:50: Fix Vercel SPA Direct Login 404
+
+- Objective: Mengatasi masalah 404: NOT_FOUND ketika pengguna membuka rute langsung https://creator-two-gilt.vercel.app/login, memastikan seluruh rute SPA diarahkan ke index.html melalui rewrites Vercel minimal.
+- Root cause: Konfigurasi `frontend/vercel.json` sebelumnya memuat properti `cleanUrls: true` yang menyebabkan Vercel menelusuri file statis login.html daripada mengeksekusi SPA catch-all rewrites, serta pentingnya memastikan Root Directory proyek di dashboard Vercel disetel ke `frontend` agar file `frontend/vercel.json` terbaca oleh edge router Vercel.
+- Files: `frontend/vercel.json`.
+- Configuration: Menyederhanakan `frontend/vercel.json` menjadi skema rewrites minimal: `{"rewrites": [{"source": "/(.*)", "destination": "/index.html"}]}` tanpa flag cleanUrls, schema, atau build command override yang dapat memicu konflik routing edge Vercel.
+- Action: Memperbarui `frontend/vercel.json` dengan konfigurasi rewrite murni, memvalidasi local direct HTTP GET request pada rute `/`, `/login`, dan `/app` (seluruhnya menghasilkan HTTP 200), menjalankan kompilasi build produksi (1899 modul, 0 error), dan memverifikasi nol kebocoran rahasia.
+- Verification: Direct HTTP GET ke `http://localhost:5173/login` mengembalikan status 200. Hasil build produksi bersih dan siap redeploy.
+- Evidence: Kompilasi `npm run build` sukses dalam 8.61s. Secret scan 0 kebocoran.
+- Status: Vercel SPA Routing Configuration: PASS. Direct production URL testing: Menunggu pengguna menyetel Root Directory ke `frontend` di dashboard Vercel dan menekan Redeploy.
+- Remaining blocker: Diperlukan konfirmasi pengaturan Root Directory = `frontend` pada Settings -> General di dashboard Vercel sebelum redeploy.
+- Next action: Pengguna memeriksa Root Directory pada Settings -> General di Vercel, lalu melakukan Redeploy.
+
 ### 2026-09-12 01:40: Vercel Login Production Fix
 
 - Objective: Menghilangkan dependensi semu ke Laravel lokal pada halaman login saat frontend berjalan di Vercel, memastikan Supabase Auth menjadi satu-satunya provider otentikasi, dan memvalidasi penanganan ketiadaan environment variable di lingkungan produksi.
