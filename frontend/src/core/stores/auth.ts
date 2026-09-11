@@ -37,12 +37,27 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  async function login(credentials: { email: string; password: string }) {
+    const response = await apiClient.post('/login', credentials)
+    const authToken = response.data?.token || response.data?.access_token || response.data?.data?.token
+    if (authToken) {
+      setToken(authToken)
+    }
+    if (response.data?.user || response.data?.data?.user) {
+      user.value = response.data?.user || response.data?.data?.user
+    } else {
+      await fetchUser().catch(() => {})
+    }
+    return response.data
+  }
+
   return {
     user,
     token,
     isAuthenticated,
     setToken,
     clearAuth,
-    fetchUser
+    fetchUser,
+    login
   }
 })

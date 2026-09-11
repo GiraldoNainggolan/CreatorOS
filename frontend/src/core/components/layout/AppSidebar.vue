@@ -79,58 +79,58 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 
 const isRouteActive = (href: string) => {
-  if (href === '/' && route.path === '/') return true
-  if (href !== '/' && route.path.startsWith(href)) return true
+  if (href === '/app' && route.path === '/app') return true
+  if (href !== '/app' && route.path.startsWith(href)) return true
   return false
 }
 
 const primaryNavigation = ref([
-  { name: 'Dashboard', href: '/', icon: LayoutDashboard },
-  { name: 'Generate', href: '/generate', icon: Sparkles },
-  { name: 'Content Pipeline', href: '/content', icon: FolderKanban },
+  { name: 'Dashboard', href: '/app', icon: LayoutDashboard },
+  { name: 'Generate', href: '/app/generate', icon: Sparkles },
+  { name: 'Content Pipeline', href: '/app/content', icon: FolderKanban },
 ])
 
 const workspaceGroups = ref([
   {
     name: 'Content System',
     items: [
-      { name: 'Brand', href: '/workspace/brand' },
-      { name: 'Audience', href: '/workspace/audience' },
-      { name: 'Content System', href: '/workspace/system' },
+      { name: 'Brand', href: '/app/workspace/brand' },
+      { name: 'Audience', href: '/app/workspace/audience' },
+      { name: 'Content System', href: '/app/workspace/system' },
     ]
   },
   {
     name: 'Production',
     items: [
-      { name: 'Script', href: '/workspace/script' },
-      { name: 'Recording', href: '/workspace/recording' },
-      { name: 'Editing', href: '/workspace/editing' },
-      { name: 'Posting', href: '/workspace/posting' },
+      { name: 'Script', href: '/app/workspace/script' },
+      { name: 'Recording', href: '/app/workspace/recording' },
+      { name: 'Editing', href: '/app/workspace/editing' },
+      { name: 'Posting', href: '/app/workspace/posting' },
     ]
   },
   {
     name: 'Intelligence',
     items: [
-      { name: 'Analytics', href: '/workspace/analytics' },
-      { name: 'Repurpose', href: '/workspace/repurpose' },
-      { name: 'AI Library', href: '/workspace/ai' },
-      { name: 'Knowledge Base', href: '/workspace/knowledge' },
+      { name: 'Analytics', href: '/app/workspace/analytics' },
+      { name: 'Repurpose', href: '/app/workspace/repurpose' },
+      { name: 'AI Library', href: '/app/workspace/ai' },
+      { name: 'Knowledge Base', href: '/app/workspace/knowledge' },
     ]
   },
   {
     name: 'Business',
     items: [
-      { name: 'Digital Product', href: '/workspace/products' },
-      { name: 'Portfolio', href: '/workspace/portfolio' },
-      { name: 'Business', href: '/workspace/business' },
+      { name: 'Digital Product', href: '/app/workspace/products' },
+      { name: 'Portfolio', href: '/app/workspace/portfolio' },
+      { name: 'Business', href: '/app/workspace/business' },
     ]
   },
   {
     name: 'Operations',
     items: [
-      { name: 'Asset Library', href: '/workspace/assets' },
-      { name: 'Archive', href: '/workspace/archive' },
-      { name: 'SOP', href: '/workspace/sop' },
+      { name: 'Asset Library', href: '/app/workspace/assets' },
+      { name: 'Archive', href: '/app/workspace/archive' },
+      { name: 'SOP', href: '/app/workspace/sop' },
     ]
   }
 ])

@@ -7,11 +7,11 @@
         <p class="text-muted-foreground mt-1 text-lg">Let's turn your knowledge into content.</p>
       </div>
       <div class="flex items-center gap-3">
-        <AppButton variant="outline" class="gap-2" @click="$router.push('/generate')">
+        <AppButton variant="outline" class="gap-2" @click="$router.push('/app/generate')">
           <Plus class="w-4 h-4" />
           New Idea
         </AppButton>
-        <AppButton @click="$router.push('/generate')" class="gap-2 shadow-sm font-semibold">
+        <AppButton @click="$router.push('/app/generate')" class="gap-2 shadow-sm font-semibold">
           <Sparkles class="w-4 h-4" />
           Generate Content
         </AppButton>
@@ -54,31 +54,31 @@
         <AppCard class="p-6">
           <div class="flex items-center justify-between mb-6">
             <h2 class="text-xl font-bold tracking-tight">Today's Production</h2>
-            <AppButton variant="ghost" size="sm" @click="$router.push('/content')">View Pipeline →</AppButton>
+            <AppButton variant="ghost" size="sm" @click="$router.push('/app/content')">View Pipeline →</AppButton>
           </div>
           
           <div class="grid grid-cols-3 md:grid-cols-6 gap-4">
-            <div @click="$router.push('/content')" class="flex flex-col items-center text-center p-3 rounded-lg bg-secondary/50 cursor-pointer hover:bg-secondary transition-colors">
+            <div @click="$router.push('/app/content')" class="flex flex-col items-center text-center p-3 rounded-lg bg-secondary/50 cursor-pointer hover:bg-secondary transition-colors">
               <span class="text-2xl font-bold text-foreground">{{ pipelineCounts.ideas }}</span>
               <span class="text-xs font-semibold text-muted-foreground uppercase tracking-wider mt-1">Ideas</span>
             </div>
-            <div @click="$router.push('/content')" class="flex flex-col items-center text-center p-3 rounded-lg bg-blue-50 dark:bg-blue-900/20 cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors">
+            <div @click="$router.push('/app/content')" class="flex flex-col items-center text-center p-3 rounded-lg bg-blue-50 dark:bg-blue-900/20 cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors">
               <span class="text-2xl font-bold text-blue-600 dark:text-blue-400">{{ pipelineCounts.scripts }}</span>
               <span class="text-xs font-semibold text-blue-600/70 dark:text-blue-400/70 uppercase tracking-wider mt-1">Scripts</span>
             </div>
-            <div @click="$router.push('/content')" class="flex flex-col items-center text-center p-3 rounded-lg bg-purple-50 dark:bg-purple-900/20 cursor-pointer hover:bg-purple-100 dark:hover:bg-purple-900/40 transition-colors">
+            <div @click="$router.push('/app/content')" class="flex flex-col items-center text-center p-3 rounded-lg bg-purple-50 dark:bg-purple-900/20 cursor-pointer hover:bg-purple-100 dark:hover:bg-purple-900/40 transition-colors">
               <span class="text-2xl font-bold text-purple-600 dark:text-purple-400">{{ pipelineCounts.recording }}</span>
               <span class="text-xs font-semibold text-purple-600/70 dark:text-purple-400/70 uppercase tracking-wider mt-1">Recording</span>
             </div>
-            <div @click="$router.push('/content')" class="flex flex-col items-center text-center p-3 rounded-lg bg-orange-50 dark:bg-orange-900/20 cursor-pointer hover:bg-orange-100 dark:hover:bg-orange-900/40 transition-colors">
+            <div @click="$router.push('/app/content')" class="flex flex-col items-center text-center p-3 rounded-lg bg-orange-50 dark:bg-orange-900/20 cursor-pointer hover:bg-orange-100 dark:hover:bg-orange-900/40 transition-colors">
               <span class="text-2xl font-bold text-orange-600 dark:text-orange-400">{{ pipelineCounts.editing }}</span>
               <span class="text-xs font-semibold text-orange-600/70 dark:text-orange-400/70 uppercase tracking-wider mt-1">Editing</span>
             </div>
-            <div @click="$router.push('/content')" class="flex flex-col items-center text-center p-3 rounded-lg bg-green-50 dark:bg-green-900/20 cursor-pointer hover:bg-green-100 dark:hover:bg-green-900/40 transition-colors">
+            <div @click="$router.push('/app/content')" class="flex flex-col items-center text-center p-3 rounded-lg bg-green-50 dark:bg-green-900/20 cursor-pointer hover:bg-green-100 dark:hover:bg-green-900/40 transition-colors">
               <span class="text-2xl font-bold text-green-600 dark:text-green-400">{{ pipelineCounts.ready }}</span>
               <span class="text-xs font-semibold text-green-600/70 dark:text-green-400/70 uppercase tracking-wider mt-1">Ready</span>
             </div>
-            <div @click="$router.push('/content')" class="flex flex-col items-center text-center p-3 rounded-lg bg-secondary/50 cursor-pointer hover:bg-secondary transition-colors">
+            <div @click="$router.push('/app/content')" class="flex flex-col items-center text-center p-3 rounded-lg bg-secondary/50 cursor-pointer hover:bg-secondary transition-colors">
               <span class="text-2xl font-bold text-foreground">{{ pipelineCounts.published }}</span>
               <span class="text-xs font-semibold text-muted-foreground uppercase tracking-wider mt-1">Published</span>
             </div>
@@ -88,7 +88,7 @@
         <!-- Top Content -->
         <div>
           <h2 class="text-xl font-bold tracking-tight mb-4">Top Content (Based on State)</h2>
-          <AppCard v-if="topContent" class="p-6 overflow-hidden relative cursor-pointer hover:border-primary/50 transition-colors" @click="$router.push(`/content/${topContent.id}`)">
+          <AppCard v-if="topContent" class="p-6 overflow-hidden relative cursor-pointer hover:border-primary/50 transition-colors" @click="$router.push(`/app/content/${topContent.id}`)">
             <div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full -mr-4 -mt-4 z-0"></div>
             <div class="relative z-10">
               <div class="flex items-start justify-between">
