@@ -434,6 +434,10 @@ async function handleLogin() {
       authStatus.value = 'error'
       errorMessage.value =
         'Invalid email or password. Please verify your credentials and try again.'
+    } else if (err.message?.toLowerCase().includes('email not confirmed')) {
+      authStatus.value = 'error'
+      errorMessage.value =
+        'Your email address has not been confirmed yet. Please verify your email from your inbox before signing in.'
     } else {
       authStatus.value = 'error'
       errorMessage.value =

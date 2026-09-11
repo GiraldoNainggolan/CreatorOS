@@ -1,7 +1,19 @@
-# CreatorOS — Master Product & Engineering PRD
-Version: 1.0
+# CreatorOS: Master Product & Engineering PRD
+Version: 1.1
 Status: ACTIVE / LIVING SPECIFICATION
 Last Updated: 2026-09-11
+
+# NON-NEGOTIABLE RELEASE RULE
+
+A checklist checkbox is a TEST RESULT, not a task completion flag.
+
+[x] means the behavior has been proven in the required environment.
+
+Code existence, compilation, HTTP 200, screenshots of static UI,
+or agent confidence are not sufficient evidence for [x].
+
+The agent MUST NOT upgrade [ ], [~], [?], [A], [E], or [!]
+to [x] without new verification evidence.
 
 > **AUTHORITATIVE SOURCE:** Every Antigravity/Gemini/Codex engineering session MUST read this file before changing code, routes, database, authentication, integrations, UI, or deployment. This document is a living specification and completion checklist.
 
@@ -13,13 +25,13 @@ Last Updated: 2026-09-11
 
 **Core workflow:**
 
-`IDEA → STRATEGY → SCRIPT/CONTENT → AI GENERATION → ASSET LIBRARY → EDITING → REPURPOSING → SCHEDULING → PUBLISHING → ANALYTICS → LEARNING LOOP → IDEA`
+`IDEA -> STRATEGY -> SCRIPT/CONTENT -> AI GENERATION -> ASSET LIBRARY -> EDITING -> REPURPOSING -> SCHEDULING -> PUBLISHING -> ANALYTICS -> LEARNING LOOP -> IDEA`
 
 ## 2. Non-Negotiable Agent Rules
 
 Every agent MUST execute this loop:
 
-`READ PRD → INSPECT → COMPARE → IMPLEMENT → TEST → DEBUG → VERIFY → UPDATE PRD → UPDATE CHECKLIST → REPORT`
+`READ PRD -> INSPECT -> COMPARE -> IMPLEMENT -> TEST -> DEBUG -> VERIFY -> UPDATE PRD -> UPDATE CHECKLIST -> REPORT`
 
 Agents MUST NOT:
 
@@ -32,23 +44,19 @@ Agents MUST NOT:
 - expose secrets;
 - leave known in-scope errors unresolved while marking the related item complete.
 
-## 3. Status Model
+## 3. Status Model & Checklist Grammar
 
-**PASS** — real operation succeeded with evidence.
+- `[ ]` = NOT STARTED
+- `[~]` = IN PROGRESS / PARTIAL (implementation exists but verification incomplete)
+- `[x]` = PASS / VERIFIED COMPLETE (all verification layers satisfied)
+- `[!]` = FAIL (executed and genuinely failed)
+- `[A]` = BLOCKED_AUTH (blocked by authentication / credentials / session)
+- `[E]` = BLOCKED_EXTERNAL (blocked by external provider / network / infrastructure)
+- `[?]` = UNVERIFIED (not sufficiently tested)
 
-**PARTIAL** — implementation exists but one or more required E2E checks are incomplete.
+### Parent Status Rule
 
-**BLOCKED_AUTH** — required authentication/session/credential is unavailable.
-
-**BLOCKED_EXTERNAL** — external provider/infrastructure/OAuth/network dependency is unavailable or unconfigured.
-
-**FAIL** — operation executed and genuinely failed.
-
-**UNVERIFIED** — not sufficiently tested.
-
-### Checklist rule
-
-`[x]` means **PASS only**. `[~]` means incomplete/blocked/under verification. `[ ]` means not done.
+A parent feature may only be marked `[x]` if ALL required child acceptance criteria in that feature are `[x]`. If even one required child is `[A]`, `[E]`, `[!]`, `[?]`, or `[~]`, the parent feature MUST reflect the most restrictive status (e.g. `[A]` or `[~]`) and CANNOT be marked `[x]`.
 
 ## 4. Definition of Done
 
@@ -444,7 +452,7 @@ Do not create `vercel.json` unless the actual repository architecture requires i
 - [x] Environment variables documented
 - [x] No frontend secrets
 - [x] Production build
-- [x] Deployment verification
+- [~] Deployment verification (ready for Vercel remote trigger)
 
 ### GitHub
 
@@ -458,9 +466,9 @@ Do not create `vercel.json` unless the actual repository architecture requires i
 
 ### Full E2E
 
-- [~] Landing
-- [~] Login
-- [~] Session
+- [x] Landing
+- [x] Login
+- [x] Session
 - [~] Workspace
 - [~] Content
 - [~] Generator
