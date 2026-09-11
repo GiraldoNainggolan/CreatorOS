@@ -24,39 +24,65 @@ const router = createRouter({
     {
       path: '/app',
       component: () => import('../layouts/DashboardLayout.vue'),
-      meta: { requiresAuth: false }, // Preserving access for prototype navigation
+      meta: { requiresAuth: true },
       children: [
         {
           path: '',
           name: 'dashboard',
-          component: () => import('../../modules/dashboard/DashboardView.vue')
+          component: () => import('../../modules/dashboard/DashboardView.vue'),
+          meta: { requiresAuth: true }
         },
         {
           path: 'generate',
           name: 'generate',
-          component: () => import('../../modules/generator/GeneratorView.vue')
+          component: () => import('../../modules/generator/GeneratorView.vue'),
+          meta: { requiresAuth: true }
         },
         {
           path: 'content',
           name: 'content-pipeline',
-          component: () => import('../../modules/pipeline/ContentPipelineView.vue')
+          component: () => import('../../modules/pipeline/ContentPipelineView.vue'),
+          meta: { requiresAuth: true }
         },
         {
           path: 'content/:id',
           name: 'content-workspace',
-          component: () => import('../../modules/workspace/ContentWorkspaceView.vue')
+          component: () => import('../../modules/workspace/ContentWorkspaceView.vue'),
+          meta: { requiresAuth: true }
+        },
+        {
+          path: 'workspace/:domain',
+          name: 'workspace-domain',
+          component: () => import('../../modules/workspace/DomainWorkspaceView.vue'),
+          meta: { requiresAuth: true }
+        },
+        {
+          path: 'profile',
+          name: 'profile',
+          component: () => import('../../modules/profile/ProfileView.vue'),
+          meta: { requiresAuth: true }
+        },
+        {
+          path: 'settings',
+          name: 'settings',
+          component: () => import('../../modules/settings/SettingsView.vue'),
+          meta: { requiresAuth: true }
         },
         {
           path: ':pathMatch(.*)*',
           name: 'not-found',
-          component: () => import('../../components/AppPlaceholder.vue')
+          component: () => import('../../components/AppPlaceholder.vue'),
+          meta: { requiresAuth: true }
         }
       ]
     },
-    // Legacy route redirects (preserve old paths)
+    // Convenient shortcut redirects
     { path: '/generate', redirect: '/app/generate' },
     { path: '/content', redirect: '/app/content' },
-    { path: '/content/:id', redirect: to => ({ path: `/app/content/${to.params.id}` }) }
+    { path: '/content/:id', redirect: to => ({ path: `/app/content/${to.params.id}` }) },
+    { path: '/workspace/:domain', redirect: to => ({ path: `/app/workspace/${to.params.domain}` }) },
+    { path: '/profile', redirect: '/app/profile' },
+    { path: '/settings', redirect: '/app/settings' }
   ]
 })
 
@@ -70,11 +96,15 @@ router.beforeEach(async (to, _from, next) => {
 
   // Dynamic document title
   if (to.name === 'login') {
-    document.title = 'Sign In | TCOS'
+    document.title = 'Sign In | CreatorOS'
   } else if (to.name === 'landing') {
-    document.title = 'TCOS | The Creator Operating System'
+    document.title = 'CreatorOS | The Creator Operating System'
+  } else if (to.params.domain) {
+    const domainName = String(to.params.domain).toUpperCase()
+    document.title = `${domainName} | CreatorOS Workspace`
   } else if (to.name) {
-    document.title = `${String(to.name).charAt(0).toUpperCase() + String(to.name).slice(1)} | TCOS`
+    const title = String(to.name).replace(/-/g, ' ')
+    document.title = `${title.charAt(0).toUpperCase() + title.slice(1)} | CreatorOS`
   }
 
   // If already authenticated and visits /login, redirect to /app
@@ -98,11 +128,6 @@ router.beforeEach(async (to, _from, next) => {
       })
       return
     }
-  }
-
-  // Fallback demo user session if in app prototype without live credentials
-  if (!authStore.isAuthenticated && to.path.startsWith('/app') && !authStore.user) {
-    authStore.user = { id: 1, email: 'demo@creatoros.com', name: 'Giraldo' }
   }
 
   next()

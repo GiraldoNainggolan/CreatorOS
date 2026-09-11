@@ -75,8 +75,14 @@ export const useAuthStore = defineStore('auth', () => {
         setSession(data.session)
       }
 
-      supabase.auth.onAuthStateChange((_event, currentSession) => {
-        setSession(currentSession)
+      supabase.auth.onAuthStateChange((event, currentSession) => {
+        if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'USER_UPDATED') {
+          if (currentSession) setSession(currentSession)
+        } else if (event === 'SIGNED_OUT') {
+          clearAuth()
+        } else if (currentSession) {
+          setSession(currentSession)
+        }
       })
     } catch (err) {
       console.warn('Auth initialization skipped:', err)

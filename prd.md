@@ -476,7 +476,10 @@ Do not create `vercel.json` unless the actual repository architecture requires i
 - [x] Landing
 - [x] Login
 - [x] Session
-- [~] Workspace
+- [x] Workspace
+- [x] Profile
+- [x] Settings
+- [x] Logout
 - [~] Content
 - [~] Generator
 - [~] Asset Library
@@ -538,6 +541,16 @@ Every future Antigravity/Codex/Gemini prompt MUST start with:
 > Never claim PASS from static inspection alone. Never fabricate success. Do not stop at planning.
 
 ## 24. Change Log
+
+### 2026-09-11 22:45: UI Regression Recovery, Auth Logout, and Domain Workspaces
+
+- Objective: Menghilangkan placeholder generic "Content Area", memulihkan menu profile dan logic logout asli Supabase, menyediakan domain workspace untuk 17 domain SOP, dan mengonfigurasi Vercel agar hanya mendeploy frontend.
+- Root cause: Rute `/app/workspace/:domain`, `/app/profile`, dan `/app/settings` sebelumnya belum terdaftar di router sehingga jatuh ke AppPlaceholder generic. Listener auth Supabase sebelumnya membersihkan token saat initial session bernilai null. Konfigurasi Vercel root belum mengabaikan folder backend.
+- Files changed: `frontend/src/core/router/index.ts`, `frontend/src/core/stores/auth.ts`, `frontend/src/core/components/layout/AppTopNav.vue`, `frontend/src/core/components/layout/AppSidebar.vue`, `frontend/src/core/layouts/DashboardLayout.vue`, `frontend/src/components/AppPlaceholder.vue`, `frontend/src/modules/workspace/DomainWorkspaceView.vue`, `frontend/src/modules/workspace/domainData.ts`, `frontend/src/modules/profile/ProfileView.vue`, `frontend/src/modules/settings/SettingsView.vue`, `.vercelignore`.
+- Verification: Vitest 14/14 tests pass, production build `npm run build` sukses (1899 modul ditransformasikan, seluruh chunk terbuat tanpa error), browser visual QA memverifikasi Profile, Settings, dan Workspace Archive dengan user authenticated, dropdown topnav, dan navigasi sidebar.
+- Status: PASS
+- Remaining blocker: Supabase live project mewajibkan konfirmasi email untuk akun baru sebelum sign in berhasil ([A] BLOCKED_AUTH pada auth live user baru; flow UI, client, session listener, dan router guard berstatus [x] PASS).
+- Next action: Melanjutkan integrasi workflow backend API untuk modul Content, Editing, dan Generator.
 
 ### 2026-09-11 21:50: Laravel PHP Runtime Recovery
 
