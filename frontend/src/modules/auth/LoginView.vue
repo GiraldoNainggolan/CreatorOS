@@ -110,12 +110,12 @@
                 <ShieldAlert :size="18" />
               </div>
               <div class="alert-body">
-                <strong>Backend Service Unreachable</strong>
+                <strong>Authentication Service Unconfigured</strong>
                 <p>{{ errorMessage }}</p>
                 <div class="alert-actions">
                   <button type="button" class="btn-alert-retry" @click="retryConnection">
                     <RefreshCw :size="12" :class="{ 'spin-icon': isRetrying }" />
-                    <span>Check Connection</span>
+                    <span>Check Configuration</span>
                   </button>
                 </div>
               </div>
@@ -378,19 +378,17 @@ async function handleLogin() {
   errorMessage.value = ''
 
   try {
-    // If Supabase is configured, use Supabase Auth
-    if (authStore.isConfigured) {
-      await authStore.loginWithSupabase({
-        email: email.value,
-        password: password.value
-      })
-    } else {
-      // If neither Supabase nor backend API is configured, show clear blocked configuration
-      await authStore.login({
-        email: email.value,
-        password: password.value
-      })
+    if (!authStore.isConfigured) {
+      authStatus.value = 'blocked_configuration'
+      errorMessage.value =
+        'Supabase is not configured for this environment. Please configure VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY.'
+      return
     }
+
+    await authStore.loginWithSupabase({
+      email: email.value,
+      password: password.value
+    })
 
     authStatus.value = 'success'
 
@@ -402,48 +400,43 @@ async function handleLogin() {
   } catch (err: any) {
     console.error('Login request failed:', err)
 
-    // Check if error is due to missing configuration
-    if (!authStore.isConfigured && (!err.response || err.code === 'ERR_NETWORK')) {
+    const rawMessage = String(err.message || '').toLowerCase()
+
+    if (!authStore.isConfigured) {
       authStatus.value = 'blocked_configuration'
       errorMessage.value =
-        'Authentication service is not configured. Please set VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY in your environment, or ensure your local backend is running.'
+        'Supabase is not configured for this environment. Please configure VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY.'
       return
     }
 
-    // Check if error is network / backend offline
     const isNetworkError =
-      !err.response &&
-      (err.code === 'ERR_NETWORK' ||
-        err.message?.includes('Network Error') ||
-        err.message?.includes('ECONNREFUSED') ||
-        err.message?.includes('Failed to fetch'))
+      rawMessage.includes('network') ||
+      rawMessage.includes('failed to fetch') ||
+      rawMessage.includes('econnrefused') ||
+      err.code === 'ERR_NETWORK'
 
     if (isNetworkError) {
-      authStatus.value = 'blocked_configuration'
+      authStatus.value = 'error'
       errorMessage.value =
-        'Unable to reach authentication server. Please check your internet connection or backend server status.'
-    } else if (err.response?.status === 404) {
-      authStatus.value = 'blocked_configuration'
+        'Unable to reach authentication server. Please check your internet connection and try again.'
+    } else if (rawMessage.includes('email not confirmed')) {
+      authStatus.value = 'error'
       errorMessage.value =
-        'Authentication service is unconfigured or API endpoint was not found. Please configure VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY, or ensure your local Laravel backend is running.'
+        'Your email address has not been confirmed yet. Please verify your email from your inbox before signing in.'
     } else if (
-      err.message?.toLowerCase().includes('invalid login credentials') ||
-      err.response?.status === 401 ||
-      err.response?.status === 422
+      rawMessage.includes('invalid login credentials') ||
+      rawMessage.includes('invalid_credentials') ||
+      rawMessage.includes('invalid email or password') ||
+      err.response?.status === 400 ||
+      err.response?.status === 401
     ) {
       authStatus.value = 'error'
       errorMessage.value =
         'Invalid email or password. Please verify your credentials and try again.'
-    } else if (err.message?.toLowerCase().includes('email not confirmed')) {
-      authStatus.value = 'error'
-      errorMessage.value =
-        'Your email address has not been confirmed yet. Please verify your email from your inbox before signing in.'
     } else {
       authStatus.value = 'error'
       errorMessage.value =
-        err.message ||
-        err.response?.data?.message ||
-        'An unexpected error occurred during authentication.'
+        err.message || 'An unexpected error occurred during authentication.'
     }
   }
 }
@@ -455,11 +448,17 @@ async function retryConnection() {
 
   try {
     await authStore.initializeAuth()
-    authStatus.value = 'idle'
+    if (authStore.isConfigured) {
+      authStatus.value = 'idle'
+    } else {
+      authStatus.value = 'blocked_configuration'
+      errorMessage.value =
+        'Supabase is not configured for this environment. Please configure VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY.'
+    }
   } catch {
     authStatus.value = 'blocked_configuration'
     errorMessage.value =
-      'Authentication server remains unreachable. Please verify your configuration.'
+      'Supabase authentication server remains unreachable. Please verify your configuration.'
   } finally {
     isRetrying.value = false
   }

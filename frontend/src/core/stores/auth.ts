@@ -137,21 +137,12 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function login(credentials: { email: string; password: string }) {
-    if (isConfigured.value) {
-      return await loginWithSupabase(credentials)
+    if (!isConfigured.value) {
+      throw new Error(
+        'Supabase authentication is not configured for this environment. Please configure VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY.'
+      )
     }
-
-    const response = await apiClient.post('/login', credentials)
-    const authToken = response.data?.token || response.data?.access_token || response.data?.data?.token
-    if (authToken) {
-      setToken(authToken)
-    }
-    if (response.data?.user || response.data?.data?.user) {
-      user.value = response.data?.user || response.data?.data?.user
-    } else {
-      await fetchUser().catch(() => {})
-    }
-    return response.data
+    return await loginWithSupabase(credentials)
   }
 
   return {

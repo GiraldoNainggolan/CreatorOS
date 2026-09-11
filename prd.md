@@ -551,6 +551,18 @@ Every future Antigravity/Codex/Gemini prompt MUST start with:
 
 ## 24. Change Log
 
+### 2026-09-12 01:40: Vercel Login Production Fix
+
+- Objective: Menghilangkan dependensi semu ke Laravel lokal pada halaman login saat frontend berjalan di Vercel, memastikan Supabase Auth menjadi satu-satunya provider otentikasi, dan memvalidasi penanganan ketiadaan environment variable di lingkungan produksi.
+- Root cause: Pada implementasi sebelumnya, ketika variabel lingkungan Supabase belum disuntikkan pada saat build di Vercel, LoginView dan authStore melakukan fallback ke `apiClient.post('/login')` (endpoint Laravel lokal). Di Vercel, endpoint tersebut mengembalikan 404, yang kemudian memicu pesan "Backend Service Unreachable ... or ensure your local Laravel backend is running". Padahal Laravel lokal bukan provider autentikasi untuk frontend web publik.
+- Files: `frontend/src/core/stores/auth.ts`, `frontend/src/modules/auth/LoginView.vue`.
+- Action: Menghapus fallback `/api/login` dari auth store sehingga proses login secara eksklusif menggunakan Supabase Auth. Memperbarui pesan peringatan di LoginView agar secara akurat menginformasikan konfigurasi Supabase ("Supabase is not configured for this environment. Please configure VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY") tanpa menyebutkan Laravel lokal atau memblokir akses secara keliru.
+- Evidence: Vitest 14/14 tests pass, Vite build sukses (1899 modul ditransformasikan dalam 4.14s, 0 error), pemindaian bundle dist memastikan 0 kebocoran rahasia.
+- Verification: Root URL https://creator-two-gilt.vercel.app/ terverifikasi aktif (HTTP 200) dengan favicon GN.png.
+- Status: PASS untuk isolasi arsitektur autentikasi. Menunggu input konfigurasi Environment Variables di dashboard Vercel milik pengguna untuk runtime produksi Supabase.
+- Blocker: Variabel publik `VITE_SUPABASE_URL` dan `VITE_SUPABASE_PUBLISHABLE_KEY` perlu ditambahkan pada dashboard Vercel (Project Settings -> Environment Variables) dan dilakukan Redeploy.
+- Next action: Pengguna menambahkan environment variable Supabase di Vercel dan menekan Redeploy.
+
 ### 2026-09-12 00:30: Vercel Frontend-Only Architecture Fix
 
 - Objective: Mengatasi masalah deteksi Application Preset Services saat import GitHub repositori CreatorOS ke Vercel, memastikan Vercel mendeploy frontend Vue 3 Vite saja dengan Root Directory `frontend`.
