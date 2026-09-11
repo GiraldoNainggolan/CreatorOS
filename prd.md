@@ -441,6 +441,13 @@ Do not create `vercel.json` unless the actual repository architecture requires i
 - [x] Frontend/backend ownership verified
 - [x] No localhost production dependency
 - [x] User identity mapping verified
+- [x] PHP CLI compatibility (PHP 8.3.33)
+- [x] Composer platform requirements pass
+- [x] Laragon MySQL service running (127.0.0.1:3306)
+- [x] Database laravel_tcos verified
+- [x] Laravel DB connection verified (pdo_mysql)
+- [x] migrate:status verified without platform error
+- [x] Backend automated tests pass (9 tests, 18 assertions)
 
 ### Vercel
 
@@ -532,7 +539,21 @@ Every future Antigravity/Codex/Gemini prompt MUST start with:
 
 ## 24. Change Log
 
-### 2026-09-11 — Master PRD established
+### 2026-09-11 21:50: Laravel PHP Runtime Recovery
+
+- Objective: Pulihkan Laravel backend runtime hingga PHP CLI kompatibel, Composer valid, Laravel bootable, dan koneksi MySQL terverifikasi.
+- Root cause: Environment PATH sistem merujuk ke folder PHP php-8.3.16-Win32-vs16-x64 yang belum ada, sehingga fallback ke PHP 8.1.10. Laragon memiliki PHP 8.3 di direktori php-8.3.16.
+- Current PHP: PHP 8.3.33 (cli)
+- Required PHP: >= 8.3.0 (dari composer.json dan composer.lock)
+- Laragon PHP version: php-8.3.16 (dihubungkan via NTFS junction)
+- Files changed: Junction C:\laragon\bin\php\php-8.3.16-Win32-vs16-x64, php.ini ekstensi (curl, fileinfo, gd, intl, mbstring, exif, mysqli, openssl, pdo_mysql, zip, pdo_sqlite, sqlite3).
+- Runtime verification: php -v (8.3.33), composer check-platform-reqs (semua sukses), composer validate (valid), php artisan --version (Laravel 13.24.0), php artisan about (sukses), phpunit (9 tests, 18 assertions, 100% OK).
+- Database verification: Laragon MySQL running di 127.0.0.1:3306, database laravel_tcos terverifikasi, php artisan migrate:install sukses membuat tabel migrations, php artisan migrate:status membaca 4 pending migrations, query DB::select('SELECT 1 as test') berhasil.
+- Status: PASS
+- Remaining blocker: Tidak ada blocker runtime PHP dan MySQL lokal.
+- Next action: Menjalankan migrasi database saat domain feature backend diimplementasikan.
+
+### 2026-09-11: Master PRD established
 
 - Added authoritative PRD governance.
 - Added evidence-based PASS/partial/blocker states.
