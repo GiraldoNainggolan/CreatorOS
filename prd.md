@@ -263,37 +263,45 @@ Never expose:
 - private API keys
 - private tokens
 
-## 11. Laravel + Laragon + MySQL
+## 11. Laravel + Laragon + MySQL vs CreatorOS Cloud Supabase
 
-Local development may use Laravel + MySQL/Laragon and localhost/127.0.0.1.
+Strict architectural boundary between local backend and cloud production:
 
-Production frontend MUST NOT depend on localhost or local MySQL.
+LOCAL LARAVEL RUNTIME:
+- Framework: Laravel v13.24.0 (PHP 8.3.33)
+- Database: MySQL v8.0.30 via Laragon (127.0.0.1:3306)
+- Database Name: laravel_tcos
+- Migrations: 4 migrations Ran in Batch 1 (users, cache, jobs, ideas)
+- Tables: 10 tables created and verified via php artisan db:show
+- Persistence: Write, read, and delete persistence verified on ideas table
+- Automated Tests: 9 backend tests / 18 assertions PASS
 
-Preserve existing data ownership and identity mapping. Do not replace Laravel/MySQL with Supabase DB without explicit requirement.
+CREATOROS CLOUD RUNTIME:
+- Frontend: Vue 3 / Vite (Target: Vercel)
+- Auth: Supabase Auth (User identity, sessions, JWT)
+- Database: Supabase PostgreSQL (Cloud application data, RLS)
+- Storage: Supabase Storage (Media assets, exports)
 
-## 12. AI
+Preserve existing data ownership. Do not merge or replace local MySQL with Supabase PostgreSQL, and do not migrate Supabase schemas to local MySQL. Production frontend on Vercel MUST NOT depend on localhost or local MySQL.
+
+## 12. AI Provider Lifecycle
 
 Provider lifecycle:
 
-`DISCOVERED → CONFIGURED → AUTHENTICATED → HEALTHY → ROUTABLE`
+`DISCOVERED -> CONFIGURED -> AUTHENTICATED -> HEALTHY -> ROUTABLE`
 
-Discovered does not mean healthy.
+Discovered does not mean healthy. Discovered interfaces exist in the workspace, but active live production provider API keys (Anthropic, OpenAI, Google) are currently unconfigured in the public build environment.
+Status: `[A] BLOCKED_AUTH` / `[~] PARTIAL`. Real AI PASS requires actual provider runtime evidence. Never fabricate provider or model health, responses, request IDs, usage, or generation results.
 
-Real AI PASS requires actual provider runtime evidence.
-
-Never fabricate provider/model health, responses, request IDs, usage, or generation results.
-
-## 13. Social / Distribution
+## 13. Social / Distribution & Postiz Reconciliation
 
 Architecture:
 
-`TCOS Social Account Center → Distribution Gateway → Postiz Adapter → Postiz → Official Social Platform APIs`
+`TCOS Social Account Center -> Distribution Gateway -> Postiz Adapter -> Postiz -> Official Social Platform APIs`
 
-Social identity must come from real OAuth/API/provider data.
-
-Never create synthetic social accounts.
-
-Real connect/publish/schedule/status requires real runtime evidence.
+State Reconciliation Note:
+Historical prototype testing on 2026-09-05 demonstrated local adapter functionality (postizConfigured: true, config probe /api/config-status PASS, /api/social/connect-url generated). However, active production OAuth app credentials for live multi-platform publishing (Meta, YouTube, TikTok, LinkedIn, X) remain unconfigured for public production deployment (`[E] BLOCKED_EXTERNAL` / `[A] BLOCKED_AUTH`).
+Social identity must come from real OAuth and provider data. Never create synthetic social accounts. Real connect, publish, schedule, and analytics require live external provider credentials.
 
 ## 14. Media / Editing
 
@@ -543,6 +551,16 @@ Every future Antigravity/Codex/Gemini prompt MUST start with:
 
 ## 24. Change Log
 
+### 2026-09-11 23:30: State Reconciliation and Blocker Audit
+
+- Objective: Melakukan rekonsiliasi state historis PRD (Postiz, AI, MySQL, Vercel, Supabase Auth), memperjelas batasan arsitektur database, dan mengaudit seluruh blocker dan partial state yang tersisa.
+- Root cause: Terdapat diskrepansi antara pengujian historis lokal Postiz pada 5 September dengan status kredensial produksi saat ini, serta perlunya penegasan bahwa selesainya database lokal bukan berarti proyek 100% complete.
+- Action: Memperbarui Section 11, 12, dan 13 di prd.md, menambahkan Section 26 State Reconciliation & Blocker Audit, memperbarui checklist database, dan memetakan tabel blocker lengkap.
+- Evidence: Verifikasi runtime aktual: MySQL 8.0.30 (10 tabel, persistence OK), PHPUnit 9/9 PASS, Vitest 14/14 PASS, Vite build PASS (1899 modul), 0 placeholder route.
+- Status: RECONCILED / NOT COMPLETE (Overall status sesuai kriteria PRD).
+- Blocker: AI API credentials (BLOCKED_AUTH), Social OAuth credentials (BLOCKED_EXTERNAL), Supabase user email confirmation (BLOCKED_AUTH).
+- Next action: Menunggu penyediaan kredensial eksternal dari user untuk live AI dan Social OAuth.
+
 ### 2026-09-11 23:00: Laravel MySQL Migrations Applied & Verified
 
 - Objective: Menerapkan seluruh migration yang berstatus Pending ke database MySQL lokal laravel_tcos dan memverifikasi persistensi skema database.
@@ -590,4 +608,54 @@ Every future Antigravity/Codex/Gemini prompt MUST start with:
 
 ## 25. Final Execution Rule
 
-`IMPLEMENTED → TESTED → DEBUGGED → VERIFIED → PERSISTED → REGRESSION-SAFE → DOCUMENTED → PASS → [x] COMPLETE`
+`IMPLEMENTED -> TESTED -> DEBUGGED -> VERIFIED -> PERSISTED -> REGRESSION-SAFE -> DOCUMENTED -> PASS -> [x] COMPLETE`
+
+## 26. State Reconciliation & Blocker Audit (2026-09-11)
+
+### 26.1 State Reconciliation Summary
+
+1. **Local MySQL Database & Migrations**:
+   - Status: PASS
+   - Reconciled from pending migrations to fully verified runtime.
+   - Evidence: PHP 8.3.33, MySQL 8.0.30 (127.0.0.1:3306), database `laravel_tcos`, 4 migrations Ran (Batch 1), 10 tables created, `SELECT 1 AS test` query OK, write/read/delete persistence verified on `ideas` table, PHPUnit 9/9 tests pass (18 assertions).
+   - Architectural Boundary: Local MySQL is dedicated strictly to local Laravel backend development. It is never deployed to Vercel and never mixed with Supabase schemas.
+
+2. **Supabase Cloud Infrastructure & Auth**:
+   - Status: PARTIAL / BLOCKED_AUTH
+   - Client connection, reactive auth state, session listener, router guards, and real `supabase.auth.signOut()` logout flow are verified (`[x] PASS`).
+   - Live user authentication with unconfirmed email accounts returns `AuthApiError 400: Email not confirmed` (`[A] BLOCKED_AUTH`).
+   - Cloud database and storage remain on Supabase PostgreSQL and Supabase Storage.
+
+3. **AI Generation Engine**:
+   - Status: `[A] BLOCKED_AUTH` / `[~] PARTIAL`
+   - Workspace interface adapters exist, but active live production provider API keys (Anthropic, OpenAI, Google) are not injected into the public frontend bundle.
+   - Real AI generation awaits production provider credentials.
+
+4. **Social Distribution & Postiz Adapter**:
+   - Status: `[E] BLOCKED_EXTERNAL` / `[~] PARTIAL`
+   - Reconciliation Note: Historical prototype testing on 2026-09-05 demonstrated local adapter and connect URL probe (`postizConfigured: true`). However, active production OAuth client credentials for live multi-platform posting (Meta, YouTube, TikTok, LinkedIn, X) are not configured for production deployment.
+   - Real multi-platform distribution awaits live platform app credentials.
+
+5. **Frontend Application & Domain Workspaces**:
+   - Status: PASS
+   - Zero generic placeholder routes exist. 17 SOP domain workspaces are registered with verified domain data, operational metrics, and quality gates. User Profile, Settings, topnav dropdown, and sidebar logout are fully restored and tested.
+
+6. **Vercel Deployment Architecture**:
+   - Status: PASS (Deployment Ready)
+   - Configuration targets frontend only via `.vercelignore` (excluding `backend/`, `docs/`, `knowledge/`, and `scratch/`). SPA rewrites are active, build passes with 1899 modules transformed and 0 errors, with zero localhost dependencies.
+
+### 26.2 Comprehensive Blocker Audit Table
+
+| Item | Status | Evidence | Blocker | Next Action |
+|---|---|---|---|---|
+| Local MySQL & Laravel | PASS | 4 migrations Ran, 10 tables, SELECT 1 OK, read/write/delete persistence OK, PHPUnit 9/9 PASS | None | Connect API routes as modules expand |
+| Landing Page | PASS | Dark-only SaaS, GN.png favicon, responsive desktop/tablet/mobile, visual QA pass | None | None |
+| Frontend Build & Tests | PASS | 14/14 Vitest tests pass, Vite build passes with 1899 modules transformed and 0 errors | None | Maintain zero regression |
+| UI & Domain Workspaces | PASS | 17 SOP domain workspaces restored, User Profile restored, Settings restored, TopNav dropdown restored, Sidebar logout restored, 0 placeholder production routes | None | Continue wireframing deeper workflows |
+| Vercel Deployment Config | PASS | Frontend-only target, root `.vercelignore` ignores backend and internal tools, SPA rewrites active, no local DB dependency | None | Trigger remote Vercel production deployment |
+| Supabase Auth Client & Guard | PASS | Client initialized, live URL connected, router guard enforced, reactive state machine active, real logout tested | None | None |
+| Live User Sign-In | BLOCKED_AUTH | Form submission to live Supabase endpoint returns AuthApiError 400: Email not confirmed | Requires confirmed email user credentials | Verify live email confirmation in Supabase dashboard |
+| AI Generation Engine | BLOCKED_AUTH | Discovered provider interfaces exist; active live provider API keys unconfigured in client build | Awaiting production AI API key (Anthropic/OpenAI/Gemini) | Add provider credentials when available |
+| Social Distribution (Postiz) | BLOCKED_EXTERNAL | Local adapter and connect URL historically tested; active platform OAuth app credentials not configured in production | Awaiting live Meta/YouTube/TikTok/LinkedIn OAuth app credentials | Connect live OAuth app keys in production |
+| Media / FFmpeg Export | PARTIAL | Prototype export pipeline documented; full cloud transcoding cluster unconfigured | Requires cloud media worker or local FFmpeg daemon | Hook background FFmpeg job |
+| Full E2E Loop | NOT COMPLETE | Core modules, DB, UI, and auth guards pass, but AI, live distribution, and media export await provider credentials | AI/Social credentials and live email confirmation | Complete remaining provider integrations |
